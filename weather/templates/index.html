@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+{% load static %}
+{% load extra_files %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>homepage: What's about today</title>
+        <!-- Favicon-->
+               <link href={% static "weather/fonts/font-awesome.min.css" %} rel="stylesheet" type="text/css">
+		<!-- Loading main css file -->
+		<link rel="stylesheet" href={% static "weather/style.css"%}>
+        <link href= "{% static "homepage/assets/favicon.ico" %}"  rel="icon" type="image/x-icon" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static   "homepage/css/styles.css" %}" rel="stylesheet" />
+        <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet" type="text/css">
+    </head>
+    <body class="d-flex flex-column h-100">
+        <main class="flex-shrink-0">
+            <!-- Navigation-->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container px-5">
+                    <a class="navbar-brand" >What's about today</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    </div>
+                </div>
+            </nav>
+            <!-- Header-->
+
+            <header class="bg-dark py-5">
+                <div class="container px-5">
+                    <div class="row gx-5 align-items-center justify-content-center">
+                        <div class="col-lg-8 col-xl-7 col-xxl-6">
+                            <div class="my-5 text-center text-xl-start">
+                                <h1 class="display-5 fw-bolder text-white mb-2">Hello , Good {{ part |title}}</h1>
+                                <h2 class="  fw-bolder mb-2 text-white-50">Today is {{ time | fulldate  }}</h2>
+                                <h2 class="  fw-bolder mb-2 text-white-50">i hope you have wonderful day</h2>
+                                <div class="d-grid gap-3  d-sm-flex justify-content-sm-center justify-content-xl-start">
+
+                                    <a class="btn mb-2 btn-outline-light btn-lg px-4" href="#about_us">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+               <div class="hero" data-bg-image="images/banner.png">
+				<div class="container">
+					<form action="/" class="find-location">
+						<input type="text" name="location" placeholder="Find your location...">
+						<input type="submit" value="Find">
+					</form>
+
+				</div>
+            <!-- Features section-->
+
+           {% if weather.error %}
+
+                       <section class="py-5">
+                <div class="container px-5 my-5">
+
+                    <div class="row gx-5 justify-content-center">
+                        <div class="col-lg-8 col-xl-6">
+                            <div class="text-center">
+                                 <div class="card-img">
+                                <img src="https://cdn.dribbble.com/users/88213/screenshots/8560585/media/7263b7aaa8077a322b0f12a7cd7c7404.png" height="500" width="600">
+                            </div>
+                                <h2 class="fw-bolder">No matching location found.</h2>
+                                <p class="lead fw-normal text-muted mb-5">please try again</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Call to action-->
+                </div>
+            </section>
+            {% else %}
+               <section class="py-5" id="features">
+
+                <div class="container px-5 my-5">
+                    <div class="row gx-5">
+                <div class="forecast-table">
+				<div class="container">
+					<div class="forecast-container">
+						<div style="color: #eeeeee"  class="today forecast">
+							<div class="forecast-header">
+								<div class="day">{{ weather.current.last_updated_epoch | day }}</div>
+								<div class="date">{{ weather.current.last_updated_epoch | date1 }}</div>
+							</div> <!-- .forecast-header -->
+							<div class="forecast-content">
+								<div class="location">{{weather.location.name|title}},{{ weather.location.region|title}}</div>
+								<div class="degree">
+									<div class="num">{{ weather.current.temp_c }}<sup>o</sup>C</div>
+									<div class="forecast-icon">
+										<img src="{{ weather.current.condition.icon}}"  alt="" width=90>
+									</div>
+								</div>
+								<span><img src="{% static "weather/images/icon-umberella@2x.png"%}" alt="">20%</span>
+                                <span><img src="{% static "weather/images/icon-wind@2x.png"%}" alt="">{{ weather.current.wind_kph}}km/h</span>
+                                <span><img src="{% static "weather/images/icon-compass@2x.png"%}" alt="">{{ weather.current.wind_dir}}</span>
+							</div>
+						</div>
+	                </div>
+				</div>
+			</div>
+                   </div>
+                </div>
+            </section>
+            {% endif %}
+                       <section class="py-5">
+                <div class="container px-5 my-5">
+                    <div class="row gx-5 justify-content-center">
+                        <div class="col-lg-8 col-xl-6">
+                            <div class="text-center">
+                                <h2 class="display-5 fw-bolder">Holidays</h2>
+                                {% if holidays %}
+                                    {% for holiday in holidays%}
+                                <p class="lead fw-bolder text-muted mb-5">{{ holiday.name }} </p>
+                                    {% endfor %}
+                                {% else %}
+                                <p class="lead fw-bolder text-muted mb-5"> there isn't any holiday today </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Call to action-->
+
+                </div>
+            </section>
+            <!-- Testimonial section-->
+            <div class="py-5 bg-light">
+                <div class="container px-5 my-5">
+                    <div class="row gx-5 justify-content-center">
+                        <div class="col-lg-10 col-xl-7">
+                            <div class="text-center">
+                                <blockquote class="fs-4  fw-bolder text-black-50 blockquote mb-4 fst-italic">{{ quote.0.q }}</blockquote>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <div class="fw-bold">
+                                        {{ quote.0.a }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Blog preview section-->
+          </div>
+         <!-- About section one-->
+
+        </main>
+        <!-- Footer-->
+        <footer class="bg-dark py-4 mt-auto ">
+            <div class="container px-5">
+                 <div class="row gx-5 align-items-center" id="about_us">
+                        <div class="col-lg-6">
+                            <h2 class="fw-bolder text-white">ABOUT US</h2>
+                            <p class="lead fw-normal text-muted mb-0"> hello and welcome to what's about today webiste here you can find some interesting facts about today you can see today weather,date and holidays</p>
+                        </div>
+                          <div class="fw-bold text-white">
+                              Yaser Dehghan
+                          </div>
+                    </div>
+                <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+                    <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; Your Website 2021</div></div>
+                    <div class="col-auto">
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+
+        <script src="{% static  "homepage/js/scripts.js" %}"></script>
+    </body>
+</html>
