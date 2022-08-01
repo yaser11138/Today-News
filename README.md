@@ -1,4 +1,5 @@
-# what-s-up-today
+# today-news
+
 
 this a simple website that gives you some information about today
 with this website you can check weather,date,holidays of today
